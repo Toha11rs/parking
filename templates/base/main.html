@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<link href="/static/css/style.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+<html>
+<head>
+    <title>Парковка</title>
+
+</head>
+<body>
+
+    
+    <div class="">
+        
+        <div class = 'header'>
+            <h2 class = 'parking-place'>Парковочные места</h2>
+            <div class="parking-info">
+                <p>Свободные места: <span id="free-spots">{{ free_spots }}</span></p>
+                <p>Занятые места: <span id="occupied-spots">{{ occupied_spots }}</span></p>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg  navgreen">
+            <img src="static\css\icon\parking.png" width="100" height="100" class="d-inline-block align-top" alt="">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class = 'btnss'>
+            </div>
+            <br>
+            {% comment %} <a class="navbar-brand btns2" href="/create_transaction">Создать заказ</a> {% endcomment %}
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">    
+
+                    <form method="get" action="{% url 'create_transaction' %}">
+                        <button type="submit" class="btn btn-success btnss">Создать заказ на парковку </button>
+                    </form>
+                   
+                </ul>
+            
+          </div>
+        </nav>
+    <div class="button-container">
+
+        </div>
+        <br>
+
+        <div class="container">
+            <form method="get" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control ser" name="search" placeholder="Поиск">
+                    <br>
+                    <button type="submit" class="btn btn-primary mb-2">Найти</button>
+                    <a href="{% url 'main' %}">
+                        <img src="static/css/icon/reserch.png" width="40" height="40" class="d-inline-block align-top" alt="">
+                    </a>
+                </div>
+            </form>
+
+           {% if transactions %}
+    <table class="tabl">
+        <thead>
+       
+                <tr>
+                    <th>
+                        <a href="?sort=price">Стоимость</a>
+                    </th>
+                    <th>Номер автомобиля</th>
+                    <th>Номер владельца</th>
+                    <th>Дата въезда</th>
+                    <th>Дата выезда</th>
+                    <th>Стоимость</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+           
+        </thead>
+        <tbody>
+            {% for trans in transactions %}
+                <tr>
+                    <td>{{ trans.car.Number }}</td>
+                    <td>+{{ trans.car.User.PhoneNumber }}</td>
+                    <td>{{ trans.date_arrival }}</td>
+                    <td>{{ trans.date_departure }}</td>
+                    <td>{{ trans.price }}₽</td>
+                    <td>
+                        <form action="{% url 'delete_transaction' trans.id %}" method="GET">
+                            <button class="btns" type="submit">Удалить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'edit_transaction' trans.pk %}" method="GET">
+                            <button class="btns" type="submit">Редактировать</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>Транзакции не найдены</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Транзакции не найдены</p>
+{% endif %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var searchInput = document.getElementById('search-input');
+            var table = document.querySelector('.tabl');
+            var tableRows = table.getElementsByTagName('tr');
+            
+            searchInput.addEventListener('keyup', function() {
+                var searchText = searchInput.value.toLowerCase();
+                
+                for (var i = 0; i < tableRows.length; i++) {
+                    var row = tableRows[i];
+                    var rowData = row.textContent.toLowerCase();
+                    
+                    if (rowData.includes(searchText)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+    </body>
+    <br>
+<br>
+<br>
+<footer class="footer">
+    <div class="container">
+        <p>&copy; &copy; 2023 </p>
+        <br>
+        </div>
+    </footer>
+    </html>
+        

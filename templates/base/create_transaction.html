@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+        <div class="form-container">
+            <div class = 'header'>
+            <h3 class = 'parking-info'>парковочный талон</h3>
+            <form method="post" class="form">
+                {% csrf_token %}
+                <div class="form-field">
+                    <label class = 'wTxt' for="{{ form.car.id_for_label }}">Автомобиль:</label>
+                    <div class="input-wrapper">
+                        {{ form.car }}
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label class = 'wTxt' for="{{ form.date_arrival.id_for_label }}">Дата и время въезда:</label>
+                    <div class="input-wrapper">
+                        {{ form.date_arrival }}
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label class = 'wTxt' for="{{ form.date_departure.id_for_label }}">Дата и время выезда:</label>
+                    <div class="input-wrapper">
+                        {{ form.date_departure }}
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label class = 'wTxt' for="{{ form.price.id_for_label }}">Стоимость:</label>
+                    <div class="input-wrapper">
+                        <input type="{{ form.price.field.widget.input_type }}" 
+                               name="{{ form.price.html_name }}"
+                               placeholder="₽" >
+                    </div>
+                </div>
+                <h1>
+                <button type="submit" class="btns">Сохранить</button>
+            </form>
+            <button type="button" class="btns" onclick="location.href='{% url 'main' %}'">Вернуться в главное меню</button> 
+        </div>
+        <br>
+    </div>
+</body>
+
+</html>
